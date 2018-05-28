@@ -25,17 +25,24 @@ function gmdb {
     # push dev
 
     tryCheckout($dev)
+    write-green "git merge $working"
     git merge $working
+    write-green "git push origin $dev"
     git push origin $dev
+
 
     # checkout & update beta
     # merge dev to beta
     # push beta
     tryCheckout($beta)
+    write-green "git merge $dev"
     git merge $dev
+    write-green "git push origin $beta"
     git push origin $beta
     
+    write-green "git checkout $working"
     git checkout $working
+    
 }
 
 function gmb {
