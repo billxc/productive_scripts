@@ -8,8 +8,6 @@ function gmcd {
         $beta
     )
 
-    Write-Output "dev: $dev, beta $beta"
-    
     $working = git branch |Select-String "\*"  | % {$_.Line.Trim("*", " ")}
     git fetch origin
 
@@ -39,6 +37,33 @@ function gmcd {
     
     git checkout $working
 }
+
+function gmb {
+    param(
+        $beta
+    )
+    $working = git branch |Select-String "\*"  | % {$_.Line.Trim("*", " ")}
+    git fetch origin
+
+    $match = git branch --all | Select-String "\s+remotes/origin/$working$" 
+    # update working and push
+    if ($match.count -eq 1 ){
+        Write-Output "remote $working exist, pull first"
+        git pull origin $working
+    }
+    git push origin $working
+
+    # checkout & update beta
+    # merge dev to beta
+    # push beta
+    tryCheckout($beta)
+    git merge $working
+    git push origin $beta
+    
+    git checkout $working
+    
+}
+
 
 function tryCheckout($branch) {
     $localMatch = git branch --all | Select-String "\s+$branch$"
