@@ -2,7 +2,7 @@ function glog {
     git log --graph --all --oneline
 }
 
-function gmcd {
+function gmdb {
     param(
         $dev,
         $beta
@@ -48,7 +48,7 @@ function gmb {
     $match = git branch --all | Select-String "\s+remotes/origin/$working$" 
     # update working and push
     if ($match.count -eq 1 ){
-        Write-Output "remote $working exist, pull first"
+        Write-Output "remote $working exist, git pull origin $working"
         git pull origin $working
     }
     git push origin $working
@@ -75,20 +75,20 @@ function tryCheckout($branch) {
     # 本地无，远程无 ,checkout -b only
     # 本地有，远程无 ,checkout only
     if (($local -eq 1) -and ($remote -eq 1) ) {
-        Write-Output "$branch 本地有，远程有 ,checkout pull"
+        Write-Output "$branch 本地有，远程有, git checkout $branch, git pull origin $branch"
         git checkout $branch
         git pull origin $branch
     }
     elseif (($local -eq 0 ) -and ($remote -eq 1) ) {
-        Write-Output "$branch 本地无，远程有 ,checkout remote"
+        Write-Output "$branch 本地无，远程有, git checkout origin/$branch -b $branch"
         git checkout origin/$branch -b $branch
     }
     elseif (($local -eq 0) -and ($remote -eq 0) ) {
-        Write-Output "$branch 本地无，远程无 ,checkout -b only"
+        Write-Output "$branch 本地无，远程无, git checkout master -b $branch"
         git checkout master -b $branch
     }
     elseif (($local -eq 1) -and ($remote -eq 0) ) {
-        Write-Output "$branch 本地有，远程无 ,checkout only"
+        Write-Output "$branch 本地有，远程无, git checkout $branch"
         git checkout $branch
     }
     else {
