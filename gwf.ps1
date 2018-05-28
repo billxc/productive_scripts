@@ -9,14 +9,16 @@ function gmdb {
     )
 
     $working = git branch |Select-String "\*"  | % {$_.Line.Trim("*", " ")}
+    write-green "git fetch origin"
     git fetch origin
 
     $match = git branch --all | Select-String "\s+remotes/origin/$working$" 
     # update working and push
     if ($match.count -eq 1 ){
-        write-green "remote $working exist, pull first"
+        write-green "remote $working exist, git pull origin $working"
         git pull origin $working
     }
+    write-green "git push origin $working"
     git push origin $working
     
 
@@ -50,6 +52,7 @@ function gmb {
         $beta
     )
     $working = git branch |Select-String "\*"  | % {$_.Line.Trim("*", " ")}
+    write-green "git fetch origin"
     git fetch origin
 
     $match = git branch --all | Select-String "\s+remotes/origin/$working$" 
@@ -58,15 +61,19 @@ function gmb {
         write-green "remote $working exist, git pull origin $working"
         git pull origin $working
     }
+    write-green "git push origin $working"
     git push origin $working
 
     # checkout & update beta
     # merge dev to beta
     # push beta
     tryCheckout($beta)
+    write-green "git merge $working"
     git merge $working
+    write-green "git push origin $beta"
     git push origin $beta
     
+    write-green "git checkout $working"
     git checkout $working
     
 }
