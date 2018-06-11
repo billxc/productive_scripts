@@ -2,6 +2,7 @@ function glog {
     git log --graph --all --oneline
 }
 
+# git merge current branch to dev, then push ,then merge to beta, then push
 function gmdb {
     param(
         $dev,
@@ -47,6 +48,7 @@ function gmdb {
     
 }
 
+# git merge current branch to beta, then push
 function gmb {
     param(
         $beta
