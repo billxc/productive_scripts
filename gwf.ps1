@@ -15,7 +15,7 @@ function gmdb {
 
     $match = git branch --all | Select-String "\s+remotes/origin/$working$" 
     # update working and push
-    if ($match.count -eq 1 ){
+    if ($match.count -eq 1 ) {
         write-green "remote $working exist, git pull origin $working"
         git pull origin $working
     }
@@ -59,7 +59,7 @@ function gmb {
 
     $match = git branch --all | Select-String "\s+remotes/origin/$working$" 
     # update working and push
-    if ($match.count -eq 1 ){
+    if ($match.count -eq 1 ) {
         write-green "remote $working exist, git pull origin $working"
         git pull origin $working
     }
@@ -113,7 +113,7 @@ function tryCheckout($branch) {
 }
 
 
-function write-green(){
+function write-green() {
     $fc = $host.UI.RawUI.ForegroundColor
     $host.UI.RawUI.ForegroundColor = 'Green'
     if ($args) {
@@ -124,3 +124,22 @@ function write-green(){
     }
     $host.UI.RawUI.ForegroundColor = $fc
 }
+
+
+
+#git push
+function push() {
+    if ($args) {
+        git push $args
+    }
+    else {
+        git push
+    }
+}
+
+function pull() {
+    $working = git branch |Select-String "\*"  | % {$_.Line.Trim("*", " ")}
+    write-green "git pull origin $working"
+    git pull origin $working
+}
+
