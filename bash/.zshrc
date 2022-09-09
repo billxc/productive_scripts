@@ -16,16 +16,22 @@ gitc() {
     git commit -m "$1${2:+ $2}${3:+ $3}${4:+ $4}${5:+ $5}${6:+ $6}${7:+ $7}${8:+ $8}${9:+ $9}${10:+ $10}${11:+ $11}${12:+ $12}${13:+ $13}${14:+ $14}${15:+ $15}"
 }
 
+branch_prefix="myprefix"
+
 # gnb will create a new branch and switch to it
+# example: gnb a new branch
+# will create a new branch called a-new-branch and switch to it
 gnb() {
-    branch_name="branch_prefix/$1${2:+_$2}${3:+_$3}${4:+_$4}${5:+_$5}${6:+_$6}${7:+_$7}${8:+_$8}${9:+_$9}${10:+_$10}${11:+_$11}${12:+_$12}${13:+_$13}${14:+_$14}${15:+_$15}"
+    branch_name="$branch_prefix/$1${2:+-$2}${3:+-$3}${4:+-$4}${5:+-$5}${6:+-$6}${7:+-$7}${8:+-$8}${9:+-$9}${10:+-$10}${11:+-$11}${12:+-$12}${13:+-$13}${14:+-$14}${15:+-$15}"
     echo "branch name:  $branch_name"
     git checkout -b "$branch_name"
 }
 
 # gnbm will create a new branch from origin/main, and switch to it
+# example: gnbm a new branch from main
+# will create a new branch called a-new-branch-from-main and switch to it
 gnbm() {
-    branch_name="branch_prefix/$1${2:+_$2}${3:+_$3}${4:+_$4}${5:+_$5}${6:+_$6}${7:+_$7}${8:+_$8}${9:+_$9}${10:+_$10}${11:+_$11}${12:+_$12}${13:+_$13}${14:+_$14}${15:+_$15}"
+    branch_name="$branch_prefix/$1${2:+-$2}${3:+-$3}${4:+-$4}${5:+-$5}${6:+-$6}${7:+-$7}${8:+-$8}${9:+-$9}${10:+-$10}${11:+-$11}${12:+-$12}${13:+-$13}${14:+-$14}${15:+-$15}"
     echo "branch name:  $branch_name"
     git fetch origin/main
     git checkout origin/main -b "$branch_name"
